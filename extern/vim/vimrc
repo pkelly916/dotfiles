@@ -1,0 +1,21 @@
+" some good defaults
+colorscheme koehler
+set number
+set tabstop=4
+set expandtab
+set autoindent
+set smartindent
+set shiftwidth=4
+autocmd Filetype asm setlocal tabstop=6
+autocmd Filetype c setlocal tabstop=3
+
+if &term == "rxvt-unicode-256color"
+    let &titleold="urxvt"
+else
+    let &titleold=&term
+endif
+
+if &t_ts != ""
+    set title
+endif
+

@@ -1,0 +1,85 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/pilot/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# Custom prompt
+setopt PROMPT_SUBST
+PS1='[ %D{%K:%M:%S} :: ${${(%):-%~}} ] 
+%F{036}%n%f@%m > '
+
+#function zle-keymap-select() {
+#	zle reset-prompt
+#	zle -R
+#}
+
+# zle -N zle-keymap-select
+
+function vi_mode() {
+	echo "${${KEYMAP/vicmd/[% NORMAL]%}/(main|viins)/}"
+}
+
+function stopwatch() {
+    date1=`date +%s`;
+    while true; do
+        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+        read -t 0.1 -sk 1 input;
+        if [[ ! -z "$input" ]]; then
+            echo;
+            unset input;
+            break;
+        fi
+    done
+}
+
+function tvOn() {
+    xrandr --output HDMI1 --mode 1920x1080 --left-of eDP1 --primary
+    /home/pilot/.config/polybar/launch.sh
+}
+
+RPS1='$(vi_mode)'
+
+TMOUT=1
+
+TRAPALRM() {
+	zle reset-prompt
+}
+
+#alii
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias ip="ip -c"
+
+# modify script to reflect common set up
+alias monitorOn="/home/pilot/Programs/Scripts/monitor.sh"
+alias monitorOff="/home/pilot/Programs/Scripts/monitor.sh off"
+
+# remote for email - no longer needed
+alias rdp="rdesktop -g 1920x1080 -P -z -x l -u owner john02:3389"
+
+# colcycle quick commands
+alias rainhaunt="/home/pilot/Programs/colcycle/colcycle /home/pilot/Programs/colcycle/lbm_files/V05RAIN.LBM &"
+
+# start firefox burpsuite profile
+alias fireburp="firefox -P burpsuite &"
+
+# minecraft!
+alias technic="java -jar /home/pilot/Install/technic/TechnicLauncher.jar"
+
+# set up port forwards for 9front drawterm thru ssh
+alias sah="sudo ssh pilot@localhost -L564:192.168.0.75:564 -L567:192.168.0.75:567 -L17019:192.168.0.75:17019 -L17020:192.168.0.75:17020"
+
+# environment variables
+# export qemu system uri for non-sudo virsh 
+export LIBVIRT_DEFAULT_URI="qemu:///system"
+
+# update path
+export PATH="$PATH:$HOME/Programs/Scripts:$HOME/Programs/Matlab/bin"

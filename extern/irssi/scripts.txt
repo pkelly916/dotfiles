@@ -1,0 +1,5 @@
+anotherway.pl - automatically go away 
+dispatch.pl - send unknown irssi commands to server
+fakectcp.pl - respond to various ctcp commands with custom messages
+randomversion.pl - respond to version with a random client 
+stalker.pl - keep track of nicks across hosts

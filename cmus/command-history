@@ -1,0 +1,43 @@
+q
+add http://ice6.somafm.com/digitalis-128-mp3
+add plaza-one.pls
+add vapor.fm:8000/stream
+add http://198.74.51.37:9328
+add http://stream.outbackradio.com.au:7230/;
+add http://46.105.125.110:13656/
+add http://au1.fastcast4u.com/proxy/rblcnq?mp=/stream
+add http://ice5.securenetsystems.net/KAKU
+add http://s11.myradiostream.com:12398/streamjjjj
+add http://s11.myradiostream.com:12398/stream
+add http://stream.lakesmediafoundation.org:8000/kciz-lp_mpeg_128k
+p
+add http://s36.myradiostream.com:11554/;
+add http://173.193.205.96:7012/stream
+add http://ice42.securenetsystems.net/KWRD
+add https://ice42.securenetsystems.net/KWRD
+add "https://ice42.securenetsystems.net/KWRD"
+add kwrd-radio.pls
+live-filter 
+filter
+live-filter
+remove
+delete
+del
+add ~/Music/somafm/folkfwd.pls
+add ~/Music/somafm/groovesalad256.pls
+add lush.pls
+add thistle.pls
+add fluid.pls
+add groovesalad256.pls
+add all
+add *
+add bagel.pls
+add defcon256.pls
+add indiepop.pls
+add ~/Music/somafm/bagel.pls
+add ~/Music/somafm/fluid.pls
+add ~/Music/somafm/*
+add ~/Music/somafm/
+add ~/Music/spotify-playlist/
+rm
+add ~/Music/

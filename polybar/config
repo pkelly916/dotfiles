@@ -1,0 +1,284 @@
+[colors]
+background = ${xrdb:background} 
+background-alt = ${xrdb:background}
+foreground = ${xrdb:foreground}
+foreground-alt = ${xrdb:foreground}
+primary = ${xrdb:color10}
+secondary = ${xrdb:color9}
+alert = ${xrdb:color1}
+border = ${xrdb:color11}
+
+[bar/top]
+monitor = ${env:MONITOR:}
+dpi = 133
+include-file = ~/.config/polybar/top-bar
+modules-left = hostname ip volume uptime
+modules-center = date
+modules-right = cpu memory battery lock
+
+[bar/top-second]
+monitor = ${env:MONITOR:}
+dpi = 133
+include-file = ~/.config/polybar/top-second-bar
+modules-left = i3 tor ovpn vm
+modules-center = spear
+modules-right = wireless-network wlan eth
+
+[module/wireless-network]
+type = internal/network
+interface = wlp5s0
+interval = 3.0
+label-connected = %{F#ff0000}^ %{F-}%upspeed% %{F#00ff00}V %{F-}%downspeed%
+
+[module/lock]
+type = custom/text
+content = O 
+content-foreground = ${colors.alert}
+content-background = ${colors.background}
+content-padding = 2
+click-left = physlock
+;click-left = ~/.config/polybar/staticlock.sh
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
+
+label-focused = %index%
+label-focused-background = ${colors.background}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 2
+
+label-unfocused = %index%
+label-unfocused-padding = 2
+
+label-visible = %index%
+label-visible-background = ${colors.background}
+label-visible-underline = ${colors.secondary}
+label-visible-padding = 2
+
+label-urgent = %index%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+[module/uptime]
+type = custom/script
+exec = ~/.config/polybar/uptime.sh
+interval = 5
+format-prefix=">  "
+format-prefix-foreground = ${colors.primary}
+format-foreground = ${colors.foreground}
+format-padding = 2
+format-background = ${colors.background}
+
+[module/tor]
+type = custom/script
+exec = ~/.config/polybar/status tor
+interval = 4
+format = <label>
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+format-padding = 1
+format-prefix = "tor - "
+format-prefix-foreground = ${colors.primary}
+
+[module/vm]
+type = custom/script
+exec = ~/.config/polybar/vmstatus.sh
+interval = 4
+format = <label>
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+format-padding = 1
+; format-prefix = "VM "
+format-prefix-foreground = ${colors.primary}
+
+[module/firewallDaemon]
+; type = custom/script
+; exec = ~/.config/polybar/status nftables
+; interval = 4
+; format = <label>
+; format-padding = 4
+; format-foreground = ${colors.secondary}
+; format-prefix= "X "
+; format-prefix-foreground = ${colors.primary}
+
+[module/ip]
+type = custom/ipc
+interval = 1
+format = <output>
+format-prefix = "ip: "
+format-prefix-foreground = ${colors.primary}
+format-background = ${colors.background}
+format-padding = 1
+
+hook-0 = ~/.config/polybar/ip-ipc.sh
+click-left = polybar-msg -p %pid% hook ip 1
+initial = 1
+
+[module/spear]
+type = custom/text
+content = >>-;;;------;;-->
+content-foreground = "#e7c56c"
+content-padding = 4
+
+[module/hostname]
+type = custom/script
+interval = 256
+format = "   <label>"
+; format-prefix = " X "
+format-prefix-foreground = ${colors.primary}
+format-padding = 0
+format-background = ${colors.background}
+exec = echo "$(uname -n)"
+
+[module/ovpn]
+type = custom/script
+exec = ~/.config/polybar/vpn-status.sh 
+interval = 4
+format = <label>
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+format-padding = 1
+format-prefix = "vpn - "
+format-prefix-foreground = ${colors.primary}
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "cpu: "
+format-prefix-foreground = ${colors.primary}
+format-underline = #f90000
+label = %percentage%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "mem: "
+format-prefix-foreground = ${colors.secondary}
+format-background = ${colors.background}
+format-padding = 2
+format-underline = #4bffdc
+label = %percentage_used%%
+
+[module/wlan]
+type = internal/network
+interface = wlp5s0
+interval = 3.0
+format-connected = <label-connected>
+format-connected-background = ${colors.background}
+format-connected-padding = 2
+; format-connected-underline = #9f78e1
+label-connected = " %essid% - %{F#aca074}%signal%% %{F-}"
+; label-connected = " essid - %{F#aca074}%signal%% %{F-}"
+format-connected-prefix = "wlp5s0: "
+format-connected-prefix-foreground = ${colors.secondary}
+
+format-disconnected = "wlan offline   "
+format-disconnected-background = ${colors.background}
+format-disconnected-padding = 2
+label-disconnected-foreground = ${colors.foreground-alt}
+
+; ramp-signal-0 = 0
+; ramp-signal-1 = 1
+; ramp-signal-2 = 2
+; ramp-signal-3 = 3
+; ramp-signal-4 = 4
+; ramp-signal-foreground = ${colors.secondary}
+
+[module/eth]
+type = internal/network
+interface = enp3s0
+interval = 3.0
+
+; format-connected-underline = #55aa55
+format-connected-prefix = "enp3s0: "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = "connected" 
+; label-connected = %local_ip%
+
+format-disconnected = 
+
+[module/date]
+type = internal/date
+interval = 1
+date = " %a %d %b  "
+date-alt = " %m-%d-%Y"
+time = "  %H:%M,"
+time-alt = %H:%M:%S
+format-prefix = "-----------[  "
+format-prefix-foreground = ${colors.primary}
+format-suffix = " ]-----------"
+format-suffix-foreground = ${colors.primary}
+format-underline = #0a6cf5
+format-foreground = ${colors.foreground-alt}
+format-padding = 1
+format-background = ${colors.background}
+label = %time% %date%
+
+[module/volume]
+type = internal/alsa
+
+master-soundcard = default
+speaker-soundcard = default
+headphone-soundcard = default
+
+master-mixer = Master
+
+format-volume = <label-volume>
+format-muted = <label-muted>
+
+format-volume-prefix = "vol: "
+format-volume-padding = 2
+format-volume-background = ${colors.background}
+format-volume-prefix-foreground = ${colors.primary}
+label-volume = %percentage%%
+label-muted = off
+
+
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = ADP1
+full-at = 94
+
+format-charging = <animation-charging> <label-charging>
+format-charging-underline = #ffb52a
+format-charging-background = ${colors.background}
+format-charging-padding = 2
+
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full-prefix = "FULL " 
+format-full-prefix-foreground = ${colors.primary}
+format-full-underline = ${self.format-charging-underline}
+format-full-background = ${colors.background}
+format-full-padding = 2
+
+ramp-capacity-0 = [ ! ]
+ramp-capacity-1 = [|  ]
+ramp-capacity-2 = [|| ]
+ramp-capacity-3 = [|| ]
+ramp-capacity-4 = [|||]
+ramp-capacity-5 = [|||]
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+animation-charging-0 = [   ] 
+animation-charging-1 = [|  ] 
+animation-charging-2 = [|| ]
+animation-charging-3 = [|||]
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 750
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
